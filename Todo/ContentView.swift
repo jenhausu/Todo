@@ -8,10 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    let datas: [String] = ["洗衣服", "看牙醫", "換手機電池"]
+    @State var selection: Set<String> = []
+    @State var editMode: EditMode = .inactive
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            List(selection: $selection) {
+                ForEach(datas, id:\.self) { data in
+                    Text(data)
+                }
+            }
+            .navigationTitle("代辦事項")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    EditButton()
+                }
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                        Text("新增提醒事項")
+                    }
+                    Spacer()
+                }
+            }
+            .environment(\.editMode, $editMode)
+        }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
